@@ -24,28 +24,43 @@ namespace Test_APi.Controllers
         // Action to decrease MP seats in a state
         public async Task<IActionResult> insertSeat(string name,string symbol ,List<int> candidateIds)
         {
-            var cc = await IpartyService.insert(new Party() { Name=name,Symbol=symbol,Candidates=await IcandidateService.get(candidateIds) });
-            if (cc != null)
+            try
             {
-                return Ok(cc);
+                var cc = await IpartyService.insert(new Party() { Name = name, Symbol = symbol, Candidates = await IcandidateService.get(candidateIds) });
+                if (cc != null)
+                {
+                    return Ok(cc);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex.Message);
             }
         }
         [HttpGet]
        
         public async Task<IActionResult> get()
         {
-            var cc = await IpartyService.get();
-            if (cc != null)
+            try
             {
-                return Ok(cc);
+                var cc = await IpartyService.get();
+                if (cc != null)
+                {
+                    return Ok(cc);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            
+             catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex.Message);
             }
         }
     }

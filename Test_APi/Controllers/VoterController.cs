@@ -17,59 +17,93 @@ namespace Test_APi.Controllers
             IVoterService = voteService;
         }
         [HttpPost]
-        // Action to decrease MP seats in a state
+       //insert voter details
         public async Task<IActionResult> insertSeat(string VoterIdNumber, string password, string Name, string Address)
         {
-            var cc = await IVoterService.insert(new Voter() { VoterIdNumber = VoterIdNumber, Address = Address, Name = Name, password = password });
-            if (cc != null)
+            try
             {
-                return Ok(cc);
+                var cc = await IVoterService.insert(new Voter() { VoterIdNumber = VoterIdNumber, Address = Address, Name = Name, password = password });
+                if (cc != null)
+                {
+                    return Ok(cc);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex.Message);
             }
+
         }
         [HttpPatch]
+        //approve the voter
         public async Task<IActionResult> update(int VoterId, bool approve)
         {
-            var cc = await IVoterService.approve(VoterId, approve);
-            if (cc != null)
+            try
             {
-                return Ok(cc);
+                var cc = await IVoterService.approve(VoterId, approve);
+                if (cc != null)
+                {
+                    return Ok(cc);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex.Message);
             }
+           
         }
         [HttpGet]
 
         public async Task<IActionResult> get()
         {
-            var cc = await IVoterService.get();
-            if (cc != null)
+            try
             {
-                return Ok(cc);
+                var cc = await IVoterService.get();
+                if (cc != null)
+                {
+                    return Ok(cc);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex.Message);
             }
+
         }
+        //to get the voter validate
         [HttpGet("single")]
 
         public async Task<IActionResult> getSingle(string VoterIdNumber, string password)
         {
-            var cc = await IVoterService.getSingle(VoterIdNumber, password);
-            if (cc != null)
+            try
             {
-                return Ok(cc);
+                var cc = await IVoterService.getSingle(VoterIdNumber, password);
+                if (cc != null)
+                {
+                    return Ok(cc);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex.Message);
             }
+           
         }
     }
 }

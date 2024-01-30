@@ -9,6 +9,7 @@
     // Enum to represent states in India
     public class ElectionManagerContext : DbContext
     {
+
         public ElectionManagerContext(DbContextOptions<ElectionManagerContext> options) : base(options)
         {
 

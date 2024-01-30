@@ -20,20 +20,30 @@ namespace Test_APi.Controllers
         [HttpPatch]
         public async Task<IActionResult> update(int mpSeatId, int seatsNumber)
         {
-            var cc = await IMPService.update(mpSeatId,seatsNumber);
-            if (cc != null)
+            try
             {
-                return Ok(cc);
+                var cc = await IMPService.update(mpSeatId, seatsNumber);
+                if (cc != null)
+                {
+                    return Ok(cc);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex.Message);
             }
+
         }
         [HttpGet]
 
         public async Task<IActionResult> get()
         {
+            try
+            { 
             var cc = await IMPService.get();
             if (cc != null)
             {
@@ -43,21 +53,34 @@ namespace Test_APi.Controllers
             {
                 return BadRequest();
             }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPost]
         // Action to decrease MP seats in a state
         public async Task<IActionResult> insertSeat(int seatsCount,int stateId)
         {
-            var cc = await IMPService.insert(new MPSeat() { SeatNumber=seatsCount,StateId=stateId});
-            if (cc != null)
+            try
             {
-                return Ok(cc);
+                var cc = await IMPService.insert(new MPSeat() { SeatNumber = seatsCount, StateId = stateId });
+                if (cc != null)
+                {
+                    return Ok(cc);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex.Message);
             }
+
         }
 
     }

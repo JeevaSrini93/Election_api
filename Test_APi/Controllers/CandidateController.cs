@@ -10,7 +10,8 @@ namespace Test_APi.Controllers
 
     [Route("api/Candidate")]
     [ApiController]
-    [Authorize(Roles = "ElectionCommissioner")]
+  //  [Authorize(Roles = "ElectionCommissioner")]
+  //i disable the token 
 
     public class CandidateController : ControllerBase
     {
@@ -23,29 +24,45 @@ namespace Test_APi.Controllers
         // Action to decrease MP seats in a state
         public async Task<IActionResult> insertSeat(string name, int PartyId, int StateId)
         {
-            var cc = await ICandidateService.insert(new Candidate() { Name = name, PartyId = PartyId, StateId = StateId });
-            if (cc != null)
+            try
             {
-                return Ok(cc);
+                var cc = await ICandidateService.insert(new Candidate() { Name = name, PartyId = PartyId, StateId = StateId });
+                if (cc != null)
+                {
+                    return Ok(cc);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex.Message);
             }
+           
         }
         [HttpGet]
 
         public async Task<IActionResult> get()
         {
-            var cc = await ICandidateService.get();
-            if (cc != null)
+            try
             {
-                return Ok(cc);
+                var cc = await ICandidateService.get();
+                if (cc != null)
+                {
+                    return Ok(cc);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex.Message);
             }
+
         }
     }
 }

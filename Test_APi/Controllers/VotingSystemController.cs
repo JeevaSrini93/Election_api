@@ -18,89 +18,143 @@ namespace Test_APi.Controllers
             IVotingSystemService = voteService;
             ICandidateService = candidateService;
         }
+
+        //insert candiate record
         [HttpPost]
        
-        public async Task<IActionResult> insertSeat(List<int> candidateIds)
+        public async Task<IActionResult> insertcandiate(List<int> candidateIds)
         {
-            var cc = await IVotingSystemService.insert(new VotingSystem() { Candidates=await ICandidateService.get(candidateIds)});
-            if (cc != null)
+            try
             {
-                return Ok(cc);
+                var cc = await IVotingSystemService.insert(new VotingSystem() { Candidates = await ICandidateService.get(candidateIds) });
+                if (cc != null)
+                {
+                    return Ok(cc);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex.Message);
             }
         }
+
+     //insert vote record 
         [HttpPost("vote")]
 
         public async Task<IActionResult> insertvote(int voterId,int CandidateId,int VotingSystemId)
         {
-            var cc = await IVotingSystemService.vote(new Vote() {VoteId=voterId,CandidateId=CandidateId,VotingSystemId= VotingSystemId });
-            if (cc != null)
+            try
             {
-                return Ok(cc);
+                var cc = await IVotingSystemService.vote(new Vote() { VoteId = voterId, CandidateId = CandidateId, VotingSystemId = VotingSystemId });
+                if (cc != null)
+                {
+                    return Ok(cc);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex.Message);
             }
+           
         }
+        //get overall list
         [HttpGet]
 
         public async Task<IActionResult> get()
         {
-            var cc = await IVotingSystemService.get();
-            if (cc != null)
+            try
             {
-                return Ok(cc);
+                var cc = await IVotingSystemService.get();
+                if (cc != null)
+                {
+                    return Ok(cc);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex.Message);
             }
+
         }
-      
+      //get by the voting System
         [HttpGet("single")]
 
         public async Task<IActionResult> getSingle(int VotingSystemId)
         {
-            var cc = await IVotingSystemService.getSingle(VotingSystemId);
-            if (cc != null)
+            try
             {
-                return Ok(cc);
+                var cc = await IVotingSystemService.getSingle(VotingSystemId);
+                if (cc != null)
+                {
+                    return Ok(cc);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+           
+             catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex.Message);
             }
         }
         [HttpPatch]
         public async Task<IActionResult> update(VotingSystem votingSystem)
         {
-            var cc = await IVotingSystemService.update(votingSystem);
-            if (cc != null)
+            try
             {
-                return Ok(cc);
+                var cc = await IVotingSystemService.update(votingSystem);
+                if (cc != null)
+                {
+                    return Ok(cc);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex.Message);
             }
+
+
         }
+        //to view the election result
         [HttpGet("Result")]
 
         public async Task<IActionResult> GetResule(int votingSystemId)
         {
-            var cc = await IVotingSystemService.GetResule( votingSystemId);
-            if (cc != null)
+            try
             {
-                return Ok(cc);
+                var cc = await IVotingSystemService.GetResule(votingSystemId);
+                if (cc != null)
+                {
+                    return Ok(cc);
+                }
+                else
+                {
+                    return BadRequest();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest();
+                return StatusCode(500, ex.Message);
             }
+           
         }
     }
 }
